@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>/* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+        
+        /* Heading */
+        h1 {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #5a67d8;
+        }
+        
+        /* Add Task Form */
+        form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        form input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        form button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        form button:hover {
+            background-color: #4349a3;
+        }
+        
+        /* Task List */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        li {
+            background: #f9fafb;
+            border: 1px solid #e2e8f0;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        
+        li:hover {
+            background-color: #edf2f7;
+            transform: translateX(5px);
+        }
+        
+        li.completed {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+        
+        /* Task Actions */
+        li div a {
+            text-decoration: none;
+            color: #5a67d8;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        li div a:hover {
+            color: #4349a3;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+        
+            h1 {
+                font-size: 1.8rem;
+            }
+        
+            form input[type="text"] {
+                font-size: 0.9rem;
+            }
+        
+            form button {
+                font-size: 0.9rem;
+            }
+        
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        
+            li div {
+                margin-top: 5px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do App</h1>
+        <form action="/add" method="POST">
+            <input type="text" name="task" placeholder="Enter a new task" required>
+            <button type="submit">Add</button>
+        </form>
+        <ul>
+            {% for task in tasks %}
+            <li class="{{ 'completed' if task.completed }}">
+                {{ task.task }}
+                <div>
+                    {% if not task.completed %}
+                    <a href="/complete/{{ loop.index0 }}">Complete</a>
+                    {% endif %}
+                    <a href="/delete/{{ loop.index0 }}">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
